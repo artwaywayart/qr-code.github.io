@@ -14,39 +14,105 @@
             -webkit-user-select: none;
             user-select: none;
         }
+        
         .selectable {
             -webkit-user-select: text;
             user-select: text;
             -webkit-touch-callout: default;
         }
+        
+
+        
+        .floating-animation {
+            /* Animation removed */
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+        
         .pulse-glow {
             animation: pulse-glow 2s ease-in-out infinite alternate;
         }
+        
         @keyframes pulse-glow {
             from { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
             to { box-shadow: 0 0 30px rgba(34, 197, 94, 0.8); }
         }
+        
         .gradient-text {
             background: linear-gradient(135deg, #10b981, #059669);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
         .line-green {
             color: #06c755;
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-
-    <!-- Soft background -->
+    
+    <!-- Soft animated background elements -->
     <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply opacity-10 animate-pulse"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-green-200 rounded-full mix-blend-multiply opacity-10 animate-pulse delay-1000"></div>
-        <div class="absolute top-40 left-40 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply opacity-10 animate-pulse delay-1500"></div>
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite;"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-green-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 4s;"></div>
+        <div class="absolute top-40 left-40 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 6s;"></div>
     </div>
 
-    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4">
+    <!-- Initial Interface -->
+    <div id="initialInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4">
+        
+        <!-- Header -->
+        <div class="mb-6">
+            <p class="text-green-600 text-2xl font-bold">เพิ่มคิวในระบบแล้ว</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mb-8">
+            <div class="flex flex-col items-center mb-4">
+                <p class="text-gray-700 text-base font-medium mb-2">แอด LINE ร้าน</p>
+                <!-- Down Arrow -->
+                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mb-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-white">
+                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 rounded-2xl p-4 border border-blue-200">
+                <p class="text-gray-700 text-base leading-relaxed">
+                    แจ้งชื่อเฟสบุ๊คตัวเองใน LINE<br>
+                    <span class="text-blue-600 font-medium">(ชื่อเพสคือชื่อคิว)</span><br>
+                    <span class="text-red-600 font-medium text-sm mt-2 block">
+                        กรุณาติดต่อแจ้งงานก่อน<br>
+                        เวลา 24.00 น.<br>
+                        ของวันที่จองเท่านั้น
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Add LINE Button -->
+        <button 
+            onclick="showLineInterface()"
+            class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 text-base active:scale-95"
+        >
+            แอด LINE
+        </button>
+
+        <!-- Status indicator -->
+        <div class="mt-4 flex justify-center items-center space-x-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div>
+            <span class="text-gray-600 text-xs">ออนไลน์</span>
+        </div>
+    </div>
+
+    <!-- Hidden LINE Interface -->
+    <div id="lineInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4 hidden">
+        
         <!-- LINE Logo -->
         <div class="mb-4">
             <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -63,20 +129,22 @@
             <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-500 rounded-full mx-auto"></div>
         </div>
 
-        <!-- QR Code -->
+        <!-- QR Code Container -->
         <div class="mb-6 relative">
-            <div class="bg-white p-4 rounded-3xl shadow-lg border border-gray-100 mx-auto w-fit">
-                <a href="https://line.me/R/ti/p/@771jpdrp" target="_blank">
-                    <img 
-                        src="https://img2.pic.in.th/pic/L_gainfriends_2dbarcodes_GWf8d04d6db92e85e6.png" 
-                        alt="LINE QR Code" 
-                        class="rounded-2xl w-40 h-40 hover:scale-105 transition-transform duration-300"
-                    >
-                </a>
+            <div class="bg-white p-4 rounded-3xl shadow-lg border border-gray-100 mx-auto w-fit cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-105" onclick="openLineApp()">
+                <img src="https://img2.pic.in.th/pic/L_gainfriends_2dbarcodes_GWf8d04d6db92e85e6.png" 
+                     alt="LINE QR Code" 
+                     class="w-40 h-40 rounded-2xl"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <!-- Fallback text if image fails to load -->
+                <div class="w-40 h-40 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-500 text-sm" style="display: none;">
+                    QR Code<br>ไม่สามารถโหลดได้
+                </div>
             </div>
+            <p class="text-gray-500 text-xs mt-2 opacity-70">แตะเพื่อเปิดแอป LINE</p>
         </div>
 
-        <!-- LINE ID Copy -->
+        <!-- Scan Text -->
         <div class="mb-6">
             <p class="text-gray-700 text-base font-medium mb-2">สแกนเลย</p>
             <div class="bg-green-50 rounded-2xl p-3 border border-green-200 cursor-pointer hover:bg-green-100 transition-colors duration-200" onclick="copyLineId()">
@@ -93,25 +161,34 @@
             กดดูชื่อคิววันนี้
         </button>
 
-        <!-- Online status -->
+        <!-- Status indicator -->
         <div class="mt-4 flex justify-center items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div>
             <span class="text-gray-600 text-xs">ออนไลน์</span>
         </div>
     </div>
 
     <script>
+        function showLineInterface() {
+            document.getElementById('initialInterface').classList.add('hidden');
+            document.getElementById('lineInterface').classList.remove('hidden');
+        }
+        
         function copyLineId() {
             const lineId = '@771jpdrp';
+            
+            // Try modern clipboard API first
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(lineId).then(() => {
-                    alert('คัดลอก LINE ID แล้ว: ' + lineId);
-                }).catch(() => fallbackCopy(lineId));
+                    showCopySuccess();
+                }).catch(() => {
+                    fallbackCopy(lineId);
+                });
             } else {
                 fallbackCopy(lineId);
             }
         }
-
+        
         function fallbackCopy(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -121,16 +198,49 @@
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-
+            
             try {
                 document.execCommand('copy');
-                alert('คัดลอก LINE ID แล้ว: ' + text);
+                showCopySuccess();
             } catch (err) {
-                console.error('ไม่สามารถคัดลอกได้:', err);
+                console.error('Failed to copy: ', err);
             }
-
+            
             document.body.removeChild(textArea);
         }
+        
+        function showCopySuccess() {
+            const copyText = document.querySelector('.bg-green-50 p:last-child');
+            const originalText = copyText.textContent;
+            copyText.textContent = 'คัดลอกแล้ว!';
+            copyText.classList.add('text-green-700', 'font-semibold');
+            
+            setTimeout(() => {
+                copyText.textContent = originalText;
+                copyText.classList.remove('text-green-700', 'font-semibold');
+            }, 2000);
+        }
+        
+        function openLineApp() {
+            // Try to open LINE app with the specific user ID
+            const lineId = '771jpdrp';
+            const lineUrl = `https://line.me/R/ti/p/@${lineId}`;
+            
+            // For mobile devices, try to open LINE app directly
+            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // Try LINE app URL scheme first
+                const appUrl = `line://ti/p/@${lineId}`;
+                window.location.href = appUrl;
+                
+                // Fallback to web version after a short delay
+                setTimeout(() => {
+                    window.open(lineUrl, '_blank');
+                }, 1000);
+            } else {
+                // For desktop, open web version
+                window.open(lineUrl, '_blank');
+            }
+        }
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96412641b0e8481c',t:'MTc1MzMzNjMyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
