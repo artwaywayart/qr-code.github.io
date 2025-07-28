@@ -95,6 +95,16 @@
             </div>
         </div>
 
+        <!-- Countdown Timer -->
+        <div class="mb-6">
+            <div class="bg-red-50 rounded-2xl p-3 border border-red-200">
+                <p class="text-red-600 text-xs font-medium mb-1">เวลาที่เหลือในการแจ้งงาน</p>
+                <div id="countdown" class="text-red-700 text-lg font-bold">
+                    กำลังคำนวณ...
+                </div>
+            </div>
+        </div>
+
         <!-- Add LINE Button -->
         <button 
             onclick="showLineInterface()"
@@ -169,10 +179,6 @@
     </div>
 
     <script>
-        function showLineInterface() {
-            document.getElementById('initialInterface').classList.add('hidden');
-            document.getElementById('lineInterface').classList.remove('hidden');
-        }
         
         function copyLineId() {
             const lineId = '@771jpdrp';
@@ -241,6 +247,45 @@
                 window.open(lineUrl, '_blank');
             }
         }
+        
+        function updateCountdown() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 24, 0, 0); // 24:00 today
+            
+            // If current time is past midnight, set target to next day's midnight
+            if (now > today) {
+                today.setDate(today.getDate() + 1);
+            }
+            
+            const timeLeft = today - now;
+            
+            if (timeLeft <= 0) {
+                document.getElementById('countdown').innerHTML = '<span class="text-red-800">หมดเวลาแล้ว</span>';
+                return;
+            }
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+                countdownElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+        
+        // Start countdown when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+        
+        // Also start countdown when LINE interface is shown
+        function showLineInterface() {
+            document.getElementById('initialInterface').classList.add('hidden');
+            document.getElementById('lineInterface').classList.remove('hidden');
+            updateCountdown();
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96412641b0e8481c',t:'MTc1MzMzNjMyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9662de03935799a9',t:'MTc1MzY4OTg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
