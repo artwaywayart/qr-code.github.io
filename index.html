@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สแกน QR Code เพิ่มเพื่อน LINE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สแกน QR Code เพิ่มเพื่อน LINE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Sarabun', sans-serif;
@@ -52,133 +52,81 @@
             color: #06c755;
         }
     </style>
-</head>
-<body class="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-    
-    <!-- Soft animated background elements -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite;"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-green-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 4s;"></div>
-        <div class="absolute top-40 left-40 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 6s;"></div>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden"><!-- Soft animated background elements -->
+  <div class="absolute inset-0 overflow-hidden">
+   <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite;"></div>
+   <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-green-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 4s;"></div>
+   <div class="absolute top-40 left-40 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply opacity-10" style="animation: pulse 8s ease-in-out infinite; animation-delay: 6s;"></div>
+  </div><!-- Initial Interface -->
+  <div id="initialInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4"><!-- Header -->
+   <div class="mb-6">
+    <p class="text-green-600 text-2xl font-bold">เพิ่มคิวในระบบแล้ว</p>
+   </div><!-- Instructions -->
+   <div class="mb-8">
+    <div class="flex flex-col items-center mb-4">
+     <p class="text-gray-700 text-base font-medium mb-2">แอด LINE ร้าน</p><!-- Down Arrow -->
+     <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mb-3">
+      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" class="text-white"><path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+     </div>
     </div>
-
-    <!-- Initial Interface -->
-    <div id="initialInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4">
-        
-        <!-- Header -->
-        <div class="mb-6">
-            <p class="text-green-600 text-2xl font-bold">เพิ่มคิวในระบบแล้ว</p>
-        </div>
-
-        <!-- Instructions -->
-        <div class="mb-8">
-            <div class="flex flex-col items-center mb-4">
-                <p class="text-gray-700 text-base font-medium mb-2">แอด LINE ร้าน</p>
-                <!-- Down Arrow -->
-                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mb-3">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-white">
-                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-            </div>
-            
-            <div class="bg-blue-50 rounded-2xl p-4 border border-blue-200">
-                <p class="text-gray-700 text-base leading-relaxed">
-                    แจ้งชื่อเฟสบุ๊คตัวเองใน LINE<br>
-                    <span class="text-blue-600 font-medium">(ชื่อเฟสบุ๊คคือชื่อคิว)</span><br>
-                    <span class="text-red-600 font-medium text-sm mt-2 block">
-                        กรุณาติดต่อแจ้งงานก่อน<br>
-                        เวลา 24.00 น.<br>
-                        ของวันที่จองเท่านั้น
-                    </span>
-                </p>
-            </div>
-        </div>
-
-        <!-- Countdown Timer -->
-        <div class="mb-6">
-            <div class="bg-red-50 rounded-2xl p-3 border border-red-200">
-                <p class="text-red-600 text-xs font-medium mb-1">เวลาที่เหลือในการแจ้งงาน</p>
-                <div id="countdown" class="text-red-700 text-lg font-bold">
-                    กำลังคำนวณ...
-                </div>
-            </div>
-        </div>
-
-        <!-- Add LINE Button -->
-        <button 
-            onclick="showLineInterface()"
-            class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 text-base active:scale-95"
-        >
-            แอด LINE
-        </button>
-
-        <!-- Status indicator -->
-        <div class="mt-4 flex justify-center items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div>
-            <span class="text-gray-600 text-xs">ออนไลน์</span>
-        </div>
+    <div class="bg-blue-50 rounded-2xl p-4 border border-blue-200">
+     <p class="text-gray-700 text-base leading-relaxed">แจ้งชื่อเฟสบุ๊คตัวเองใน LINE<br><span class="text-blue-600 font-medium">(ชื่อเฟสบุ๊คคือชื่อคิว)</span><br><span class="text-orange-600 font-medium text-sm mt-2 block"> กรณีแอดไลน์ แต่ไม่แจ้งชื่อเฟสบุ๊ค<br>
+        ในไลน์ จะไม่มีการตอบกลับใดๆทั้งสิ้น<br>
+        เพราะไม่แจ้งคิวไม่มีตัวตน </span><br><span class="text-red-600 font-medium text-sm mt-2 block"> กรุณาติดต่อแจ้งงานก่อน<br>
+        เวลา 24.00 น.<br>
+        ของวันที่จองเท่านั้น </span></p>
     </div>
-
-    <!-- Hidden LINE Interface -->
-    <div id="lineInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4 hidden">
-        
-        <!-- LINE Logo -->
-        <div class="mb-4">
-            <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
-                    <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Header Text -->
-        <div class="mb-6">
-            <p class="text-red-500 text-xs font-medium mb-2 tracking-wide">สำหรับคนที่จองคิว เท่านั้น</p>
-            <h1 class="text-gray-800 text-xl font-bold mb-2">เพิ่มเพื่อน</h1>
-            <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-500 rounded-full mx-auto"></div>
-        </div>
-
-        <!-- QR Code Container -->
-        <div class="mb-6 relative">
-            <div class="bg-white p-4 rounded-3xl shadow-lg border border-gray-100 mx-auto w-fit cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-105" onclick="openLineApp()">
-                <img src="https://img2.pic.in.th/pic/L_gainfriends_2dbarcodes_GWf8d04d6db92e85e6.png" 
-                     alt="LINE QR Code" 
-                     class="w-40 h-40 rounded-2xl"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <!-- Fallback text if image fails to load -->
-                <div class="w-40 h-40 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-500 text-sm" style="display: none;">
-                    QR Code<br>ไม่สามารถโหลดได้
-                </div>
-            </div>
-            <p class="text-gray-500 text-xs mt-2 opacity-70">แตะเพื่อเปิดแอป LINE</p>
-        </div>
-
-        <!-- Scan Text -->
-        <div class="mb-6">
-            <p class="text-gray-700 text-base font-medium mb-2">สแกนเลย</p>
-            <div class="bg-green-50 rounded-2xl p-3 border border-green-200 cursor-pointer hover:bg-green-100 transition-colors duration-200" onclick="copyLineId()">
-                <p class="line-green text-lg font-bold tracking-wider selectable" id="lineId">@771jpdrp</p>
-                <p class="text-green-600 text-xs mt-1 opacity-70">แตะเพื่อคัดลอก</p>
-            </div>
-        </div>
-
-        <!-- Button -->
-        <button 
-            onclick="window.open('https://artwaywayart.github.io/', '_blank')"
-            class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 text-base active:scale-95"
-        >
-            กดดูชื่อคิววันนี้
-        </button>
-
-        <!-- Status indicator -->
-        <div class="mt-4 flex justify-center items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div>
-            <span class="text-gray-600 text-xs">ออนไลน์</span>
-        </div>
+   </div><!-- Countdown Timer -->
+   <div class="mb-6">
+    <div class="bg-red-50 rounded-2xl p-3 border border-red-200">
+     <p class="text-red-600 text-xs font-medium mb-1">เวลาที่เหลือในการแจ้งงาน</p>
+     <div id="countdown" class="text-red-700 text-lg font-bold">
+      กำลังคำนวณ...
+     </div>
     </div>
-
-    <script>
+   </div><!-- Add LINE Button --> <button onclick="showLineInterface()" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 text-base active:scale-95"> แอด LINE </button> <!-- Status indicator -->
+   <div class="mt-4 flex justify-center items-center space-x-2">
+    <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div><span class="text-gray-600 text-xs">ออนไลน์</span>
+   </div>
+  </div><!-- Hidden LINE Interface -->
+  <div id="lineInterface" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 max-w-xs w-full text-center relative z-10 mx-4 hidden"><!-- LINE Logo -->
+   <div class="mb-4">
+    <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+     <svg width="32" height="32" viewbox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />
+     </svg>
+    </div>
+   </div><!-- Header Text -->
+   <div class="mb-6">
+    <p class="text-red-500 text-xs font-medium mb-2 tracking-wide">สำหรับคนที่จองคิว เท่านั้น</p>
+    <h1 class="text-gray-800 text-xl font-bold mb-2">เพิ่มเพื่อน</h1>
+    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-500 rounded-full mx-auto"></div>
+   </div><!-- QR Code Container -->
+   <div class="mb-6 relative">
+    <div class="bg-white p-4 rounded-3xl shadow-lg border border-gray-100 mx-auto w-fit cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-105" onclick="openLineApp()"><img src="https://img2.pic.in.th/pic/L_gainfriends_2dbarcodes_GWf8d04d6db92e85e6.png" alt="LINE QR Code" class="w-40 h-40 rounded-2xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"> <!-- Fallback text if image fails to load -->
+     <div class="w-40 h-40 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-500 text-sm" style="display: none;">
+      QR Code<br>
+      ไม่สามารถโหลดได้
+     </div>
+    </div>
+    <p class="text-gray-500 text-xs mt-2 opacity-70">แตะเพื่อเปิดแอป LINE</p>
+   </div><!-- Scan Text -->
+   <div class="mb-6">
+    <p class="text-gray-700 text-base font-medium mb-2">สแกนเลย</p>
+    <div class="bg-green-50 rounded-2xl p-3 border border-green-200 cursor-pointer hover:bg-green-100 transition-colors duration-200" onclick="copyLineId()">
+     <p class="line-green text-lg font-bold tracking-wider selectable" id="lineId">@771jpdrp</p>
+     <p class="text-green-600 text-xs mt-1 opacity-70">แตะเพื่อคัดลอก</p>
+    </div>
+   </div><!-- Button --> <button onclick="window.open('https://artwaywayart.github.io/', '_blank')" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 text-base active:scale-95"> กดดูชื่อคิววันนี้ </button> <!-- Status indicator -->
+   <div class="mt-4 flex justify-center items-center space-x-2">
+    <div class="w-2 h-2 bg-green-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite;"></div><span class="text-gray-600 text-xs">ออนไลน์</span>
+   </div>
+  </div>
+  <script>
         
         function copyLineId() {
             const lineId = '@771jpdrp';
@@ -287,5 +235,5 @@
             updateCountdown();
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9662de03935799a9',t:'MTc1MzY4OTg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1dc91767cafe8a',t:'MTc2MzcwMjkyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
